@@ -1,7 +1,8 @@
+import Navbar from "./Navbar";
 function App() {
 	return (
 		<div>
-			Hello World<button className="btn btn-primary">test</button>
+			<Navbar />
 		</div>
 	);
 }
