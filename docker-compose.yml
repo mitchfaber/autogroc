@@ -1,0 +1,37 @@
+version: '2.2.3'
+
+services:
+  api:
+    container_name: groc-server
+    restart: always
+    image: groc-server
+    build:
+      context: server
+      target: production
+      dockerfile: dockerfile
+    volumes:
+      - ./server:/server/
+    ports:
+      - 8080:8080
+    networks:
+      - shared-network
+
+  client:
+    container_name: groc-client
+    restart: unless-stopped
+    image: groc-client
+    build:
+      context: client
+      target: production
+      dockerfile: dockerfile
+    volumes:
+      - ./client:/client/
+    ports:
+      - 3000:3000
+    networks:
+      - shared-network
+    depends_on:
+      - server
+
+networks:
+  shared-network:
