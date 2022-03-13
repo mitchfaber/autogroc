@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 export default function Navbar() {
 	return (
-		<nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+		<nav className="navbar navbar-expand-lg navbar-light bg-primary">
 			<div className="container">
-				<div className="navbar-brand">Auto groc</div>
+				<Link to="/" className="navbar-brand">
+					Auto groc
+				</Link>
 				<button
 					className="navbar-toggler"
 					type="button"
@@ -16,7 +19,9 @@ export default function Navbar() {
 				</button>
 				<div className="collapse navbar-collapse" id="navbarText">
 					<ul className="navbar-nav mr-auto">
-						<li className="nav-item nav-link">Create List</li>
+						<li className="nav-item nav-link">
+							<Link to="/create-list">Create List</Link>
+						</li>
 					</ul>
 				</div>
 			</div>
