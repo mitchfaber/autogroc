@@ -1,5 +1,5 @@
 import Navbar from "./Navbar";
-import { BrowserRouter as Router, Switch, Route, Routes, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Homepage from "./Homepage";
 import List from "./List";
 function App() {

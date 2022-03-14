@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 export default function Navbar() {
+	const [activePage, setActivePage] = useState();
+	function changePage(e) {
+		setActivePage(e.target.id);
+	}
 	return (
-		<nav className="navbar navbar-expand-lg navbar-light bg-primary">
+		<nav className="navbar navbar-expand-lg navbar-dark bg-primary">
 			<div className="container">
-				<Link to="/" className="navbar-brand">
+				<Link id="home" to="/" onClick={changePage} className="navbar-brand">
 					Auto groc
 				</Link>
 				<button
@@ -19,8 +23,14 @@ export default function Navbar() {
 				</button>
 				<div className="collapse navbar-collapse" id="navbarText">
 					<ul className="navbar-nav mr-auto">
-						<li className="nav-item nav-link">
-							<Link to="/create-list">Create List</Link>
+						<li className="nav-item">
+							<Link
+								id="create-list"
+								to="/create-list"
+								className={activePage === "create-list" ? "nav-link active" : "nav-link"}
+								onClick={changePage}>
+								Create List
+							</Link>
 						</li>
 					</ul>
 				</div>

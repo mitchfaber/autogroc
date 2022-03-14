@@ -1,7 +1,7 @@
 version: '2.2.3'
 
 services:
-  api:
+  server:
     container_name: groc-server
     restart: always
     image: groc-server
@@ -32,6 +32,8 @@ services:
       - shared-network
     depends_on:
       - server
+    links:
+      - server:se
 
 networks:
   shared-network:
