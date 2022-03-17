@@ -14,25 +14,39 @@ export default function List() {
 	return (
 		<div className="container">
 			<div className="row">
-				<div className="col-2 mt-3 mb-3 input-group">
-					<select
-						onChange={changedRec}
-						value={selectedRec}
-						className="btn btn-outline-secondary "
-						aria-label="Default select example">
-						<option value="1">One</option>
-						<option value="2">Two</option>
-						<option value="3">Three</option>
-					</select>
+				<div className="col-sm">
+					<div className="mt-3 mb-3 input-group">
+						<select
+							onChange={changedRec}
+							value={selectedRec}
+							className="btn btn-outline-secondary "
+							aria-label="Default select example">
+							<option value="1">One</option>
+							<option value="2">Two</option>
+							<option value="3">Three</option>
+						</select>
+						<div className="input-gorup append">
+							<span className="input-group-text">
+								<a href="#" className=" text-secondary">
+									<FontAwesomeIcon icon={["fas", "plus"]} />
+								</a>
+							</span>
+						</div>
+					</div>
 				</div>
-			</div>
-			<div className="row">
-				<div className="col-lg-3">
+				<div className="col-sm">
 					<form>
-						<textarea className="form-control" rows="15" placeholder="Enter items separated by commas"></textarea>
+						<div className="mt-3 mb-3 input-group">
+							<input className="form-control" type="text" />
+							<div className="input-group-append">
+								<span className="input-group-text">
+									<a href="#" className=" text-secondary">
+										<FontAwesomeIcon icon={["fas", "plus"]} />
+									</a>
+								</span>
+							</div>
+						</div>
 					</form>
-				</div>
-				<div className="col-lg-6">
 					<table className="table">
 						<thead>
 							<tr>
