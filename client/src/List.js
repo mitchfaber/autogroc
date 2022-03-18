@@ -14,59 +14,123 @@ export default function List() {
 	return (
 		<div className="container">
 			<div className="row">
-				<div className="col-sm">
+				<div className="col-12 col-md-6">
 					<div className="mt-3 mb-3 input-group">
 						<select
 							onChange={changedRec}
 							value={selectedRec}
 							className="btn btn-outline-secondary "
 							aria-label="Default select example">
-							<option value="1">One</option>
-							<option value="2">Two</option>
-							<option value="3">Three</option>
+							<option value="1">Chicken and Potatoes</option>
+							<option value="2">Tacos</option>
+							<option value="3">Chicken Alfredo</option>
+							<option value="4">Butter Chicken</option>
 						</select>
 						<div className="input-gorup append">
 							<span className="input-group-text">
-								<a href="#" className=" text-secondary">
+								<button href="#" className="btn btn-link text-secondary">
 									<FontAwesomeIcon icon={["fas", "plus"]} />
-								</a>
+								</button>
 							</span>
 						</div>
 					</div>
+					<table className="table">
+						<thead>
+							<tr>
+								<th scope="col">Recipe</th>
+								<th scope="col">Remove</th>
+								<th scope="col">Notes</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Butter Chicken</td>
+								<td>
+									<button href="#" className="btn btn-link text-danger">
+										<FontAwesomeIcon icon={["fas", "minus-circle"]} />
+									</button>
+								</td>
+								<td>
+									<input className="form-control" type="text" />
+								</td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
-				<div className="col-sm">
+				<div className="col-12 col-md-6">
 					<form>
 						<div className="mt-3 mb-3 input-group">
 							<input className="form-control" type="text" />
 							<div className="input-group-append">
 								<span className="input-group-text">
-									<a href="#" className=" text-secondary">
+									<button href="#" className="btn btn-link text-secondary">
 										<FontAwesomeIcon icon={["fas", "plus"]} />
-									</a>
+									</button>
 								</span>
 							</div>
 						</div>
+						<div style={{ overflow: "auto", height: "500px" }}>
+							<table className="table">
+								<thead>
+									<tr>
+										<th scope="col">Item Name</th>
+										<th scope="col">Recipe</th>
+										<th scope="col">Remove</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Chicken</td>
+										<td>Butter Chicken</td>
+										<td>
+											<button href="#" className="btn btn-link text-danger">
+												<FontAwesomeIcon icon={["fas", "minus-circle"]} />
+											</button>
+										</td>
+									</tr>
+									<tr>
+										<td>Chicken</td>
+										<td>Butter Chicken</td>
+										<td>
+											<button href="#" className="btn btn-link text-danger">
+												<FontAwesomeIcon icon={["fas", "minus-circle"]} />
+											</button>
+										</td>
+									</tr>
+									<tr>
+										<td>Chicken</td>
+										<td>Butter Chicken</td>
+										<td>
+											<button href="#" className="btn btn-link text-danger">
+												<FontAwesomeIcon icon={["fas", "minus-circle"]} />
+											</button>
+										</td>
+									</tr>
+									<tr>
+										<td>Chicken</td>
+										<td>Butter Chicken</td>
+										<td>
+											<button href="#" className="btn btn-link text-danger">
+												<FontAwesomeIcon icon={["fas", "minus-circle"]} />
+											</button>
+										</td>
+									</tr>
+									<tr>
+										<td>Chicken</td>
+										<td>Butter Chicken</td>
+										<td>
+											<button href="#" className="btn btn-link text-danger">
+												<FontAwesomeIcon icon={["fas", "minus-circle"]} />
+											</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<button className="btn btn-primary" type="submit">
+							Submit
+						</button>
 					</form>
-					<table className="table">
-						<thead>
-							<tr>
-								<th scope="col">Item Name</th>
-								<th scope="col">Recipe</th>
-								<th scope="col">Remove</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>Chicken</td>
-								<td>Butter Chicken</td>
-								<td>
-									<a href="#" className="text-danger">
-										<FontAwesomeIcon icon={["fas", "minus-circle"]} />
-									</a>
-								</td>
-							</tr>
-						</tbody>
-					</table>
 				</div>
 			</div>
 		</div>
