@@ -7,9 +7,14 @@ import { fas } from "@fortawesome/free-solid-svg-icons";
 library.add(fas);
 
 export default function List() {
-	const [selectedRec, setSelectedRec] = useState();
+	const [selectedRecID, setSelectedRecID] = useState("1");
+	const [selectedRecText, setselectedRecText] = useState("1");
 	function changedRec(e) {
-		setSelectedRec(e.target.value);
+		setSelectedRecID(e.target.value);
+		setselectedRecText(e.target[e.target.value - 1].text);
+	}
+	function addRecipe() {
+		console.log(selectedRecText);
 	}
 	return (
 		<div className="container">
@@ -18,7 +23,7 @@ export default function List() {
 					<div className="mt-3 mb-3 input-group">
 						<select
 							onChange={changedRec}
-							value={selectedRec}
+							value={selectedRecID}
 							className="btn btn-outline-secondary "
 							aria-label="Default select example">
 							<option value="1">Chicken and Potatoes</option>
@@ -28,7 +33,7 @@ export default function List() {
 						</select>
 						<div className="input-gorup append">
 							<span className="input-group-text">
-								<button href="#" className="btn btn-link text-secondary">
+								<button onClick={addRecipe} className="btn btn-link text-secondary">
 									<FontAwesomeIcon icon={["fas", "plus"]} />
 								</button>
 							</span>
