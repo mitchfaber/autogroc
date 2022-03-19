@@ -7,7 +7,6 @@ services:
     image: groc-server
     build:
       context: server
-      target: production
       dockerfile: dockerfile
     volumes:
       - ./server:/server/
@@ -22,7 +21,6 @@ services:
     image: groc-client
     build:
       context: client
-      target: production
       dockerfile: dockerfile
     volumes:
       - ./client:/client/
