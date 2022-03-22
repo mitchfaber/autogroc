@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import DateRange from "./DateRange";
-import Table from "./Table";
+import IngredientTable from "./IngredientTable";
 
 // This exports the whole icon packs for Brand and Solid.
 library.add(fas);
@@ -11,7 +11,13 @@ library.add(fas);
 export default function List() {
 	const [selectedRecID, setSelectedRecID] = useState("nothing");
 	const [selectedRecText, setselectedRecText] = useState("nothing");
-	const [ingredients, setIngredients] = useState([{ recName: "Butter Chicken", ingName: "Chicken" }]);
+	const [ingredients, setIngredients] = useState([{ ingName: "Monsters" }, { ingName: "Formula" }]);
+	const [recipes, setRecipes] = useState([
+		{
+			recName: "Butter Chicken",
+			ingredients: ["Chicken", "Chili Powder"],
+		},
+	]);
 	const [input, setInput] = useState("");
 
 	function changedRec(e) {
@@ -24,14 +30,7 @@ export default function List() {
 	}
 
 	function removeIngredient(ingName) {
-		setIngredients([
-			(prevIng) => {
-				prevIng.find((ing) => {
-					ing.ingName = ingName;
-					console.log(ing);
-				});
-			},
-		]);
+		setIngredients(ingredients.filter((ingredient) => ingredient.ingName !== ingName));
 	}
 
 	function addIngredient() {
@@ -101,7 +100,10 @@ export default function List() {
 						</div>
 					</div>
 					<div style={{ overflow: "auto", height: "500px" }}>
-						<Table ingredients={ingredients} removeIngredient={removeIngredient}></Table>
+						<IngredientTable
+							recipes={recipes}
+							ingredients={ingredients}
+							removeIngredient={removeIngredient}></IngredientTable>
 					</div>
 					<DateRange></DateRange>
 					<button className="mb-3 btn btn-primary" type="submit">

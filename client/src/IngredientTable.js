@@ -5,7 +5,7 @@ import { fas } from "@fortawesome/free-solid-svg-icons";
 import { v4 as uuidv4 } from "uuid";
 
 library.add(fas);
-export default function Table({ ingredients, removeIngredient }) {
+export default function IngredientTable({ ingredients, removeIngredient, recipes }) {
 	return (
 		<table className="table">
 			<thead>
@@ -15,13 +15,31 @@ export default function Table({ ingredients, removeIngredient }) {
 					<th scope="col">Remove</th>
 				</tr>
 			</thead>
+
 			<tbody>
+				{recipes.map((e) => {
+					console.log(e.ingredients);
+					return e.ingredients.map((i) => {
+						console.log(i);
+						return (
+							<tr key={uuidv4()}>
+								<td>{i}</td>
+								<td>{e.recName}</td>
+								<td>
+									<button onClick={() => removeIngredient(i)} className="btn btn-link text-danger">
+										<FontAwesomeIcon icon={["fas", "minus-circle"]} />
+									</button>
+								</td>
+							</tr>
+						);
+					});
+				})}
 				{ingredients.map((e) => {
-					console.log(e);
+					console.log(ingredients);
 					return (
 						<tr key={uuidv4()}>
 							<td>{e.ingName}</td>
-							<td>{e.recName}</td>
+							<td></td>
 							<td>
 								<button onClick={() => removeIngredient(e.ingName)} className="btn btn-link text-danger">
 									<FontAwesomeIcon icon={["fas", "minus-circle"]} />
