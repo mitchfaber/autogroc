@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import DateRange from "./DateRange";
+import Table from "./Table";
 
 // This exports the whole icon packs for Brand and Solid.
 library.add(fas);
@@ -10,6 +11,7 @@ library.add(fas);
 export default function List() {
 	const [selectedRecID, setSelectedRecID] = useState("nothing");
 	const [selectedRecText, setselectedRecText] = useState("nothing");
+	const [ingredients, setIngredients] = useState([{ recName: "Butter Chicken", ingName: "Chicken" }]);
 	const [input, setInput] = useState("");
 
 	function changedRec(e) {
@@ -19,6 +21,17 @@ export default function List() {
 		} else {
 			setselectedRecText("nothing");
 		}
+	}
+
+	function removeIngredient(ingName) {
+		setIngredients([
+			(prevIng) => {
+				prevIng.find((ing) => {
+					ing.ingName = ingName;
+					console.log(ing);
+				});
+			},
+		]);
 	}
 
 	function addIngredient() {
@@ -88,62 +101,7 @@ export default function List() {
 						</div>
 					</div>
 					<div style={{ overflow: "auto", height: "500px" }}>
-						<table className="table">
-							<thead>
-								<tr>
-									<th scope="col">Item Name</th>
-									<th scope="col">Recipe</th>
-									<th scope="col">Remove</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>Chicken</td>
-									<td>Butter Chicken</td>
-									<td>
-										<button href="#" className="btn btn-link text-danger">
-											<FontAwesomeIcon icon={["fas", "minus-circle"]} />
-										</button>
-									</td>
-								</tr>
-								<tr>
-									<td>Chicken</td>
-									<td>Butter Chicken</td>
-									<td>
-										<button href="#" className="btn btn-link text-danger">
-											<FontAwesomeIcon icon={["fas", "minus-circle"]} />
-										</button>
-									</td>
-								</tr>
-								<tr>
-									<td>Chicken</td>
-									<td>Butter Chicken</td>
-									<td>
-										<button href="#" className="btn btn-link text-danger">
-											<FontAwesomeIcon icon={["fas", "minus-circle"]} />
-										</button>
-									</td>
-								</tr>
-								<tr>
-									<td>Chicken</td>
-									<td>Butter Chicken</td>
-									<td>
-										<button href="#" className="btn btn-link text-danger">
-											<FontAwesomeIcon icon={["fas", "minus-circle"]} />
-										</button>
-									</td>
-								</tr>
-								<tr>
-									<td>Chicken</td>
-									<td>Butter Chicken</td>
-									<td>
-										<button href="#" className="btn btn-link text-danger">
-											<FontAwesomeIcon icon={["fas", "minus-circle"]} />
-										</button>
-									</td>
-								</tr>
-							</tbody>
-						</table>
+						<Table ingredients={ingredients} removeIngredient={removeIngredient}></Table>
 					</div>
 					<DateRange></DateRange>
 					<button className="mb-3 btn btn-primary" type="submit">
