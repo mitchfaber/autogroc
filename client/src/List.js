@@ -4,6 +4,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import DateRange from "./DateRange";
 import IngredientTable from "./IngredientTable";
+import { v4 as uuidv4 } from "uuid";
 
 // This exports the whole icon packs for Brand and Solid.
 library.add(fas);
@@ -34,12 +35,18 @@ export default function List() {
 	}
 
 	function addIngredient() {
+		setIngredients((prevIng) => [...prevIng, { ingName: input }]);
 		setInput("");
 	}
 
 	function addRecipe() {
 		console.log(selectedRecText);
 	}
+
+	function removeRecipe(recName) {
+		setRecipes(recipes.filter((recipe) => recipe.recName !== recName));
+	}
+
 	return (
 		<div className="container">
 			<div className="row">
@@ -74,17 +81,21 @@ export default function List() {
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>Butter Chicken</td>
-								<td>
-									<button href="#" className="btn btn-link text-danger">
-										<FontAwesomeIcon icon={["fas", "minus-circle"]} />
-									</button>
-								</td>
-								<td>
-									<input className="form-control" type="text" />
-								</td>
-							</tr>
+							{recipes.map((e) => {
+								return (
+									<tr key={uuidv4}>
+										<td>Butter Chicken</td>
+										<td>
+											<button onClick={() => removeRecipe(e.recName)} className="btn btn-link text-danger">
+												<FontAwesomeIcon icon={["fas", "minus-circle"]} />
+											</button>
+										</td>
+										<td>
+											<input className="form-control" type="text" />
+										</td>
+									</tr>
+								);
+							})}
 						</tbody>
 					</table>
 				</div>

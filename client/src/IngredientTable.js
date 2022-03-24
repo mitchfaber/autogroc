@@ -15,25 +15,7 @@ export default function IngredientTable({ ingredients, removeIngredient, recipes
 					<th scope="col">Remove</th>
 				</tr>
 			</thead>
-
 			<tbody>
-				{recipes.map((e) => {
-					console.log(e.ingredients);
-					return e.ingredients.map((i) => {
-						console.log(i);
-						return (
-							<tr key={uuidv4()}>
-								<td>{i}</td>
-								<td>{e.recName}</td>
-								<td>
-									<button onClick={() => removeIngredient(i)} className="btn btn-link text-danger">
-										<FontAwesomeIcon icon={["fas", "minus-circle"]} />
-									</button>
-								</td>
-							</tr>
-						);
-					});
-				})}
 				{ingredients.map((e) => {
 					console.log(ingredients);
 					return (
@@ -47,6 +29,19 @@ export default function IngredientTable({ ingredients, removeIngredient, recipes
 							</td>
 						</tr>
 					);
+				})}
+				{recipes.map((e) => {
+					console.log(e.ingredients);
+					return e.ingredients.map((i) => {
+						console.log(i);
+						return (
+							<tr key={uuidv4()}>
+								<td>{i}</td>
+								<td>{e.recName}</td>
+								<td></td>
+							</tr>
+						);
+					});
 				})}
 			</tbody>
 		</table>
