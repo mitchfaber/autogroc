@@ -13,19 +13,15 @@ export default function List() {
 	const [selectedRecID, setSelectedRecID] = useState("nothing");
 	const [selectedRecText, setselectedRecText] = useState("nothing");
 	const [ingredients, setIngredients] = useState([{ ingName: "Monsters" }, { ingName: "Formula" }]);
-	const [recipes, setRecipes] = useState([
-		{
-			recName: "Butter Chicken",
-			ingredients: ["Chicken", "Chili Powder"],
-		},
-	]);
+	const [recipes, setRecipes] = useState([]);
 	const [input, setInput] = useState("");
 
 	function changedRec(e) {
 		setSelectedRecID(e.target.value);
 		if (e.target.value !== "nothing") {
-			setselectedRecText(e.target[e.target.value].text);
+			setselectedRecText(e.target.value);
 		} else {
+			console.log(e);
 			setselectedRecText("nothing");
 		}
 	}
@@ -40,6 +36,13 @@ export default function List() {
 	}
 
 	function addRecipe() {
+		setRecipes((prevRec) => [
+			...prevRec,
+			{
+				recName: "Butter Chicken",
+				ingredients: ["Chicken", "Chili Powder"],
+			},
+		]);
 		console.log(selectedRecText);
 	}
 
@@ -57,11 +60,15 @@ export default function List() {
 							value={selectedRecID}
 							className="btn btn-outline-secondary "
 							aria-label="Default select example">
-							<option value="nothing">Select a recipe to add</option>
-							<option value="1">Chicken and Potatoes</option>
-							<option value="2">Tacos</option>
-							<option value="3">Chicken Alfredo</option>
-							<option value="4">Butter Chicken</option>
+							<option value="nothing">Select a recipe</option>
+							<option value="Butter Chicken">Butter Chicken</option>
+							{/* {recipes.map((e) => {
+								return (
+									<option key={uuidv4} value={e.recName}>
+										{e.recName}
+									</option>
+								);
+							})} */}
 						</select>
 						<div className="input-gorup append">
 							<span className="input-group-text">
@@ -84,7 +91,7 @@ export default function List() {
 							{recipes.map((e) => {
 								return (
 									<tr key={uuidv4}>
-										<td>Butter Chicken</td>
+										<td>{e.recName}</td>
 										<td>
 											<button onClick={() => removeRecipe(e.recName)} className="btn btn-link text-danger">
 												<FontAwesomeIcon icon={["fas", "minus-circle"]} />
