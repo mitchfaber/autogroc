@@ -27,7 +27,9 @@ const planSchema = new mongoose.Schema({
 	],
 	ingredients: [
 		{
-			name: string,
+			name: {
+				type: String,
+			},
 		},
 	],
 });

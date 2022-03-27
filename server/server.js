@@ -14,8 +14,11 @@ db.once("open", (error) => {
 
 app.use(express.json());
 
-const grocRouter = require("./routes/groc");
-app.use("/groc", grocRouter);
+const recRouter = require("./routes/RecipeRoute");
+app.use("/recipe", recRouter);
+
+const planRouter = require("./routes/PlanRoute");
+app.use("/plan", planRouter);
 
 app.listen(8080, () => {
 	console.log("Server Started");
