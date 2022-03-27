@@ -1,16 +1,22 @@
+require("dotenv").config();
+
 const express = require("express");
-const cors = require("cors");
-
 const app = express();
+const mongoose = require("mongoose");
+mongoose.connect(process.env.DATABASE_URL, { useNewURLParser: true });
+const db = mongoose.connection;
+db.on("error", (error) => {
+	console.log("error" + error);
+});
+db.once("open", (error) => {
+	console.log("Databse Open");
+});
 
-app.use(cors());
+app.use(express.json());
+
+const grocRouter = require("./routes/groc");
+app.use("/groc", grocRouter);
+
 app.listen(8080, () => {
 	console.log("Server Started");
-});
-app.get("/", (req, res) => {
-	try {
-		res.json({ message: "Hello world" });
-	} catch (err) {
-		res.status(500).json({ message: err.message });
-	}
 });

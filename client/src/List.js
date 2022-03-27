@@ -35,6 +35,10 @@ export default function List() {
 		setInput("");
 	}
 
+	function getRecipes() {}
+
+	function getIngredients() {}
+
 	function addRecipe() {
 		setRecipes((prevRec) => [
 			...prevRec,
