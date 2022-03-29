@@ -12,9 +12,14 @@ library.add(fas);
 export default function List() {
 	const [selectedRecID, setSelectedRecID] = useState("nothing");
 	const [selectedRecText, setselectedRecText] = useState("nothing");
-	const [ingredients, setIngredients] = useState([{ ingName: "Monsters" }, { ingName: "Formula" }]);
+	const [ingredients, setIngredients] = useState([]);
 	const [recipes, setRecipes] = useState([]);
+	const [recNames, setRecNames] = useState([]);
 	const [input, setInput] = useState("");
+
+	useEffect(() => {
+		getRecipes();
+	}, []);
 
 	function changedRec(e) {
 		setSelectedRecID(e.target.value);
@@ -30,28 +35,44 @@ export default function List() {
 		setIngredients(ingredients.filter((ingredient) => ingredient.ingName !== ingName));
 	}
 
-	function addIngredient() {
-		setIngredients((prevIng) => [...prevIng, { ingName: input }]);
+	function addIngredient(newIng) {
+		setIngredients((prevIng) => [...prevIng, { ingName: newIng }]);
 		setInput("");
 	}
 
-	function getRecipes() {}
+	function getRecipes() {
+		fetch("http://localhost:8080/recipe", { method: "GET" })
+			.then((res) => res.json())
+			.then((results) => {
+				results.map((rec) => {
+					console.log(rec.name);
+					setRecNames((prevRecNames) => [...prevRecNames, { recName: rec.name }]);
+				});
+			});
+	}
 
 	function getIngredients() {}
 
 	function addRecipe() {
-		setRecipes((prevRec) => [
-			...prevRec,
-			{
-				recName: "Butter Chicken",
-				ingredients: ["Chicken", "Chili Powder"],
-			},
-		]);
 		console.log(selectedRecText);
+		fetch("http://localhost:8080/recipe/" + selectedRecText, { method: "GET" })
+			.then((res) => res.json())
+			.then((results) => {
+				setRecipes((prevRec) => [
+					...prevRec,
+					{
+						recName: results.name,
+						ingredients: results.ingredients,
+					},
+				]);
+				setRecNames(recNames.filter((recName) => recName.recName !== results.name));
+				// console.log(recNames);
+			});
 	}
 
 	function removeRecipe(recName) {
 		setRecipes(recipes.filter((recipe) => recipe.recName !== recName));
+		setRecNames((prevName) => [...prevName, { recName: recName }]);
 	}
 
 	return (
@@ -65,14 +86,13 @@ export default function List() {
 							className="btn btn-outline-secondary "
 							aria-label="Default select example">
 							<option value="nothing">Select a recipe</option>
-							<option value="Butter Chicken">Butter Chicken</option>
-							{/* {recipes.map((e) => {
+							{recNames.map((e) => {
 								return (
-									<option key={uuidv4} value={e.recName}>
+									<option key={uuidv4()} value={e.recName}>
 										{e.recName}
 									</option>
 								);
-							})} */}
+							})}
 						</select>
 						<div className="input-gorup append">
 							<span className="input-group-text">
@@ -94,7 +114,7 @@ export default function List() {
 						<tbody>
 							{recipes.map((e) => {
 								return (
-									<tr key={uuidv4}>
+									<tr key={uuidv4()}>
 										<td>{e.recName}</td>
 										<td>
 											<button onClick={() => removeRecipe(e.recName)} className="btn btn-link text-danger">
@@ -115,7 +135,7 @@ export default function List() {
 						<input className="form-control" type="text" value={input} onInput={(e) => setInput(e.target.value)} />
 						<div className="input-group-append">
 							<span className="input-group-text">
-								<button onClick={addIngredient} className="btn btn-link text-secondary">
+								<button onClick={() => addIngredient(input)} className="btn btn-link text-secondary">
 									<FontAwesomeIcon icon={["fas", "plus"]} />
 								</button>
 							</span>

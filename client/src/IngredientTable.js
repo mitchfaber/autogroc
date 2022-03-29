@@ -17,7 +17,6 @@ export default function IngredientTable({ ingredients, removeIngredient, recipes
 			</thead>
 			<tbody>
 				{ingredients.map((e) => {
-					console.log(ingredients);
 					return (
 						<tr key={uuidv4()}>
 							<td>{e.ingName}</td>
