@@ -20,9 +20,7 @@ const planSchema = new mongoose.Schema({
 			name: {
 				type: String,
 			},
-			ingredients: {
-				type: Array,
-			},
+			ingredients: [],
 		},
 	],
 	ingredients: [

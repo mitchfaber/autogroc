@@ -2,6 +2,14 @@ GET http://localhost:8080/recipe
 
 ###
 
+GET http://localhost:8080/recipe/Tacos
+
+###
+
+DELETE http://localhost:8080/recipe/Butter Chicken
+
+###
+
 POST http://localhost:8080/recipe/add
 Content-Type: application/json
 
@@ -9,7 +17,7 @@ Content-Type: application/json
     "author": "Mitch Faber",
     "name":"Butter Chicken",
     "ingredients": [
-        {"name":"Chicken"},
-        {"name":"Chili Powder"}
+        "Chicken",
+        "Chili Powder"
     ]
 }

@@ -13,6 +13,25 @@ router.get("/", async (req, res) => {
 	}
 });
 
+router.get("/:name", async (req, res) => {
+	try {
+		const recipes = await Recipe.findOne({ name: req.params.name });
+		res.send(recipes);
+	} catch (err) {
+		res.status(500).json({ message: err.message });
+	}
+});
+
+router.delete("/:name", async (req, res) => {
+	try {
+		const recipes = await Recipe.findOne({ name: req.params.name });
+		recipes.remove();
+		res.json({ message: "Deleted Book" });
+	} catch (err) {
+		res.status(500).json({ message: err.message });
+	}
+});
+
 router.post("/add", async (req, res) => {
 	const recipe = new Recipe({
 		author: req.body.author,
