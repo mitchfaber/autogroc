@@ -36,7 +36,7 @@ export default function IngredientTable({ ingredients, removeIngredient, recipes
 						return (
 							<tr key={uuidv4()}>
 								<td>{i}</td>
-								<td>{e.recName}</td>
+								<td>{e.name}</td>
 								<td></td>
 							</tr>
 						);

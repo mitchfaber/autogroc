@@ -11,16 +11,17 @@ router.get("/", async (req, res) => {
 		res.status(500).json({ message: err.message });
 	}
 });
+// adding a new meal plan
 router.post("/add", async (req, res) => {
-	const plan = new Plan({
-		author: req.body.author,
-		startDate: req.body.start,
-		endDate: req.body.end,
-		recipes: req.body.recipes,
-		ingredients: req.body.ingredients,
-	});
-
 	try {
+		console.log(req.body);
+		const plan = new Plan({
+			author: req.body.author,
+			startDate: req.body.startDate,
+			endDate: req.body.endDate,
+			recipes: req.body.recipes,
+			ingredients: req.body.ingredients,
+		});
 		const newPlan = await plan.save();
 		res.status(201).json(newPlan);
 	} catch (err) {

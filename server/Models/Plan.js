@@ -23,13 +23,7 @@ const planSchema = new mongoose.Schema({
 			ingredients: [],
 		},
 	],
-	ingredients: [
-		{
-			name: {
-				type: String,
-			},
-		},
-	],
+	ingredients: [],
 });
 
 module.exports = mongoose.model("Plan", planSchema);

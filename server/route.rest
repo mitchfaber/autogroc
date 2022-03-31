@@ -21,3 +21,29 @@ Content-Type: application/json
         "Chili Powder"
     ]
 }
+
+###
+
+GET http://localhost:8080/plan/
+
+###
+
+POST http://localhost:8080/plan/add/
+Content-Type: application/json
+
+{
+    "author": "Mitch Faber",
+    "startDate":"March 27, 2022",
+    "endDate":"April 1, 2022",
+    "recipes": [
+        {
+            "name": "Butter Chicken",
+            "ingredients":[
+                "Chicken"
+            ]
+        }
+    ],
+    "ingredients": [
+        "Monsters"
+    ]
+}

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
-import DateRange from "./DateRange";
 import IngredientTable from "./IngredientTable";
 import { v4 as uuidv4 } from "uuid";
 
@@ -16,6 +15,9 @@ export default function List() {
 	const [recipes, setRecipes] = useState([]);
 	const [recNames, setRecNames] = useState([]);
 	const [input, setInput] = useState("");
+	const [plan, setPlan] = useState({});
+	const [startDate, setStartDate] = useState();
+	const [endDate, setEndDate] = useState();
 
 	useEffect(() => {
 		getRecipes();
@@ -29,6 +31,24 @@ export default function List() {
 			console.log(e);
 			setselectedRecText("nothing");
 		}
+	}
+
+	function createPlan() {
+		setPlan({
+			author: "Mitch Faber",
+			startDate: startDate,
+			endDate: endDate,
+			recipes: recipes,
+			ingredients: ingredients,
+		});
+		const requestOptions = {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(plan),
+		};
+		fetch("http://localhost:8080/plan/add", requestOptions).then((res) => {
+			console.log(res);
+		});
 	}
 
 	function removeIngredient(ingName) {
@@ -46,7 +66,7 @@ export default function List() {
 			.then((results) => {
 				results.map((rec) => {
 					console.log(rec.name);
-					setRecNames((prevRecNames) => [...prevRecNames, { recName: rec.name }]);
+					setRecNames((prevRecNames) => [...prevRecNames, { name: rec.name }]);
 				});
 			});
 	}
@@ -61,18 +81,18 @@ export default function List() {
 				setRecipes((prevRec) => [
 					...prevRec,
 					{
-						recName: results.name,
+						name: results.name,
 						ingredients: results.ingredients,
 					},
 				]);
-				setRecNames(recNames.filter((recName) => recName.recName !== results.name));
+				setRecNames(recNames.filter((recName) => recName.name !== results.name));
 				// console.log(recNames);
 			});
 	}
 
 	function removeRecipe(recName) {
-		setRecipes(recipes.filter((recipe) => recipe.recName !== recName));
-		setRecNames((prevName) => [...prevName, { recName: recName }]);
+		setRecipes(recipes.filter((recipe) => recipe.name !== recName));
+		setRecNames((prevName) => [...prevName, { name: recName }]);
 	}
 
 	return (
@@ -88,8 +108,8 @@ export default function List() {
 							<option value="nothing">Select a recipe</option>
 							{recNames.map((e) => {
 								return (
-									<option key={uuidv4()} value={e.recName}>
-										{e.recName}
+									<option key={uuidv4()} value={e.name}>
+										{e.name}
 									</option>
 								);
 							})}
@@ -115,9 +135,9 @@ export default function List() {
 							{recipes.map((e) => {
 								return (
 									<tr key={uuidv4()}>
-										<td>{e.recName}</td>
+										<td>{e.name}</td>
 										<td>
-											<button onClick={() => removeRecipe(e.recName)} className="btn btn-link text-danger">
+											<button onClick={() => removeRecipe(e.name)} className="btn btn-link text-danger">
 												<FontAwesomeIcon icon={["fas", "minus-circle"]} />
 											</button>
 										</td>
@@ -147,8 +167,27 @@ export default function List() {
 							ingredients={ingredients}
 							removeIngredient={removeIngredient}></IngredientTable>
 					</div>
-					<DateRange></DateRange>
-					<button className="mb-3 btn btn-primary" type="submit">
+					<div className="mb-3 row">
+						<div className="col">
+							<label>Start date</label>
+							<input
+								className="form-control"
+								value={startDate}
+								onInput={(e) => setStartDate(e.target.value)}
+								type="date"
+							/>
+						</div>
+						<div className="col">
+							<label>End date</label>
+							<input
+								className="form-control"
+								value={endDate}
+								onInput={(e) => setEndDate(e.target.value)}
+								type="date"
+							/>
+						</div>
+					</div>
+					<button onClick={createPlan} className="mb-3 btn btn-primary" type="submit">
 						Submit
 					</button>
 				</div>
