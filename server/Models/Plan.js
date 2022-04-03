@@ -6,12 +6,12 @@ const planSchema = new mongoose.Schema({
 		required: true,
 	},
 	startDate: {
-		type: Date,
+		type: String,
 		required: true,
 		default: Date.now,
 	},
 	endDate: {
-		type: Date,
+		type: String,
 		required: true,
 		default: Date.now,
 	},
@@ -23,7 +23,7 @@ const planSchema = new mongoose.Schema({
 			ingredients: [],
 		},
 	],
-	ingredients: [],
+	ingredients: [{ name: { type: String } }],
 });
 
 module.exports = mongoose.model("Plan", planSchema);

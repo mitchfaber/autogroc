@@ -19,10 +19,10 @@ export default function IngredientTable({ ingredients, removeIngredient, recipes
 				{ingredients.map((e) => {
 					return (
 						<tr key={uuidv4()}>
-							<td>{e.ingName}</td>
+							<td>{e.name}</td>
 							<td></td>
 							<td>
-								<button onClick={() => removeIngredient(e.ingName)} className="btn btn-link text-danger">
+								<button onClick={() => removeIngredient(e.name)} className="btn btn-link text-danger">
 									<FontAwesomeIcon icon={["fas", "minus-circle"]} />
 								</button>
 							</td>
@@ -32,10 +32,10 @@ export default function IngredientTable({ ingredients, removeIngredient, recipes
 				{recipes.map((e) => {
 					console.log(e.ingredients);
 					return e.ingredients.map((i) => {
-						console.log(i);
+						console.log(ingredients);
 						return (
 							<tr key={uuidv4()}>
-								<td>{i}</td>
+								<td>{i.name}</td>
 								<td>{e.name}</td>
 								<td></td>
 							</tr>

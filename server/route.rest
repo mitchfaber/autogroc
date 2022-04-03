@@ -6,7 +6,7 @@ GET http://localhost:8080/recipe/Tacos
 
 ###
 
-DELETE http://localhost:8080/recipe/Butter Chicken
+DELETE http://localhost:8080/recipe/Tacos
 
 ###
 
@@ -15,16 +15,20 @@ Content-Type: application/json
 
 {
     "author": "Mitch Faber",
-    "name":"Butter Chicken",
+    "name":"Tacos",
     "ingredients": [
-        "Chicken",
-        "Chili Powder"
+        {"name":"Ground Beef"},
+        {"name":"Taco Seasoning"}
     ]
 }
 
 ###
 
 GET http://localhost:8080/plan/
+
+###
+
+GET http://localhost:8080/plan/6248ddb8971a09742887669f
 
 ###
 
@@ -44,6 +48,13 @@ Content-Type: application/json
         }
     ],
     "ingredients": [
-        "Monsters"
+        {"name": "Monsters"},
+        {"name": "NEWNAME"}
     ]
 }
+
+###
+
+DELETE http://localhost:8080/plan/delete/6248ddb8971a09742887669f
+
+###

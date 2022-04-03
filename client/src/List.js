@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import IngredientTable from "./IngredientTable";
 import { v4 as uuidv4 } from "uuid";
 
-// This exports the whole icon packs for Brand and Solid.
+// This exports the whole icon packs for Solid.
 library.add(fas);
 
 export default function List() {
@@ -16,12 +17,28 @@ export default function List() {
 	const [recNames, setRecNames] = useState([]);
 	const [input, setInput] = useState("");
 	const [plan, setPlan] = useState({});
-	const [startDate, setStartDate] = useState();
-	const [endDate, setEndDate] = useState();
+	const [startDate, setStartDate] = useState("");
+	const [endDate, setEndDate] = useState("");
+	let { id } = useParams();
 
 	useEffect(() => {
 		getRecipes();
+		if (id !== undefined) {
+			getPlan();
+		}
 	}, []);
+
+	function getPlan() {
+		fetch(`http://localhost:8080/plan/${id}`)
+			.then((res) => res.json())
+			.then((result) => {
+				setIngredients(result.ingredients);
+				setRecipes(result.recipes);
+				setStartDate(result.startDate);
+				setEndDate(result.endDate);
+				console.log(result.recipes);
+			});
+	}
 
 	function changedRec(e) {
 		setSelectedRecID(e.target.value);
@@ -41,22 +58,33 @@ export default function List() {
 			recipes: recipes,
 			ingredients: ingredients,
 		});
-		const requestOptions = {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify(plan),
-		};
-		fetch("http://localhost:8080/plan/add", requestOptions).then((res) => {
-			console.log(res);
-		});
+		if (id === undefined) {
+			const requestOptions = {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(plan),
+			};
+			fetch("http://localhost:8080/plan/add", requestOptions).then((res) => {
+				console.log(plan);
+			});
+		} else {
+			const requestOptions = {
+				method: "PATCH",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(plan),
+			};
+			fetch(`http://localhost:8080/plan/patch/${id}`, requestOptions).then((res) => {
+				console.log(plan);
+			});
+		}
 	}
 
-	function removeIngredient(ingName) {
-		setIngredients(ingredients.filter((ingredient) => ingredient.ingName !== ingName));
+	function removeIngredient(name) {
+		setIngredients(ingredients.filter((ingredient) => ingredient.name !== name));
 	}
 
 	function addIngredient(newIng) {
-		setIngredients((prevIng) => [...prevIng, { ingName: newIng }]);
+		setIngredients((prevIng) => [...prevIng, { name: newIng }]);
 		setInput("");
 	}
 
@@ -86,7 +114,6 @@ export default function List() {
 					},
 				]);
 				setRecNames(recNames.filter((recName) => recName.name !== results.name));
-				// console.log(recNames);
 			});
 	}
 
@@ -122,7 +149,6 @@ export default function List() {
 							</span>
 						</div>
 					</div>
-
 					<table className="table">
 						<thead>
 							<tr>

@@ -9,9 +9,8 @@ function App() {
 				<Navbar />
 				<Routes>
 					<Route path="/" element={<Homepage />} />
-				</Routes>
-				<Routes>
 					<Route path="/create-list" element={<List />} />
+					<Route path="/plan/:id" element={<List />} />
 				</Routes>
 			</Router>
 		</div>

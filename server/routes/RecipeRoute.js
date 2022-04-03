@@ -26,7 +26,7 @@ router.delete("/:name", async (req, res) => {
 	try {
 		const recipes = await Recipe.findOne({ name: req.params.name });
 		recipes.remove();
-		res.json({ message: "Deleted Book" });
+		res.json({ message: "Deleted Recipe" });
 	} catch (err) {
 		res.status(500).json({ message: err.message });
 	}

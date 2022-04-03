@@ -11,6 +11,47 @@ router.get("/", async (req, res) => {
 		res.status(500).json({ message: err.message });
 	}
 });
+router.get("/:id", async (req, res) => {
+	try {
+		const plan = await Plan.findById(req.params.id);
+		res.send(plan);
+	} catch (err) {
+		res.status(400).json({ message: err.message });
+	}
+});
+// delete a meal plan
+router.delete("/delete/:id", async (req, res) => {
+	try {
+		await Plan.findByIdAndDelete(req.params.id);
+		res.send(202);
+	} catch (err) {
+		res.status(400).json({ message: err.message });
+	}
+});
+router.patch("/patch/:id", async (req, res) => {
+	try {
+		const plan = await Plan.findById(req.params.id);
+		if (req.body.startDate != null) {
+			plan.startDate = req.body.startDate;
+		}
+		if (req.body.endDate != null) {
+			plan.endDate = req.body.endDate;
+		}
+		if (req.body.recipes != null) {
+			plan.recipes = req.body.recipes;
+		}
+		if (req.body.recipes != null) {
+			plan.recipes = req.body.recipes;
+		}
+		if (req.body.ingredients != null) {
+			plan.ingredients = req.body.ingredients;
+		}
+		await plan.save();
+		res.send(200);
+	} catch (err) {
+		res.status(400).json({ message: err.message });
+	}
+});
 // adding a new meal plan
 router.post("/add", async (req, res) => {
 	try {
@@ -25,7 +66,8 @@ router.post("/add", async (req, res) => {
 		const newPlan = await plan.save();
 		res.status(201).json(newPlan);
 	} catch (err) {
-		res.status(400).json({ messgae: err.message });
+		res.status(400).json({ message: err.message });
 	}
 });
+
 module.exports = router;
