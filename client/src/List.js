@@ -16,7 +16,7 @@ export default function List() {
 	const [recipes, setRecipes] = useState([]);
 	const [recNames, setRecNames] = useState([]);
 	const [input, setInput] = useState("");
-	const [plan, setPlan] = useState({});
+	const [plan, setPlan] = useState();
 	const [startDate, setStartDate] = useState("");
 	const [endDate, setEndDate] = useState("");
 	let { id } = useParams();
@@ -50,6 +50,30 @@ export default function List() {
 		}
 	}
 
+	useEffect(() => {
+		if (plan !== undefined) {
+			if (id === undefined) {
+				const requestOptions = {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify(plan),
+				};
+				fetch("http://localhost:8080/plan/add", requestOptions).then((res) => {
+					console.log(plan);
+				});
+			} else {
+				const requestOptions = {
+					method: "PATCH",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify(plan),
+				};
+				fetch(`http://localhost:8080/plan/patch/${id}`, requestOptions).then((res) => {
+					console.log(plan);
+				});
+			}
+		}
+	}, [plan]);
+
 	function createPlan() {
 		setPlan({
 			author: "Mitch Faber",
@@ -58,25 +82,6 @@ export default function List() {
 			recipes: recipes,
 			ingredients: ingredients,
 		});
-		if (id === undefined) {
-			const requestOptions = {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(plan),
-			};
-			fetch("http://localhost:8080/plan/add", requestOptions).then((res) => {
-				console.log(plan);
-			});
-		} else {
-			const requestOptions = {
-				method: "PATCH",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(plan),
-			};
-			fetch(`http://localhost:8080/plan/patch/${id}`, requestOptions).then((res) => {
-				console.log(plan);
-			});
-		}
 	}
 
 	function removeIngredient(name) {
