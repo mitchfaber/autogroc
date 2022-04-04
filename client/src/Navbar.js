@@ -32,6 +32,15 @@ export default function Navbar() {
 								Create List
 							</Link>
 						</li>
+						<li className="nav-item">
+							<Link
+								id="recipes"
+								to="/recipes"
+								className={activePage === "recipes" ? "nav-link active" : "nav-link"}
+								onClick={changePage}>
+								Recipes
+							</Link>
+						</li>
 					</ul>
 				</div>
 			</div>

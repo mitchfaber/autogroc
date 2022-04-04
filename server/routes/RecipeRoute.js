@@ -15,18 +15,26 @@ router.get("/", async (req, res) => {
 
 router.get("/:name", async (req, res) => {
 	try {
-		const recipes = await Recipe.findOne({ name: req.params.name });
-		res.send(recipes);
+		if (recipe !== undefined) {
+			const recipe = await Recipe.findOne({ name: req.params.name });
+			res.send(recipe);
+		} else {
+			res.send(404);
+		}
 	} catch (err) {
 		res.status(500).json({ message: err.message });
 	}
 });
 
-router.delete("/:name", async (req, res) => {
+router.delete("/delete/:name", async (req, res) => {
 	try {
-		const recipes = await Recipe.findOne({ name: req.params.name });
-		recipes.remove();
-		res.json({ message: "Deleted Recipe" });
+		const recipe = await Recipe.findOne({ name: req.params.name });
+		if (recipe !== undefined) {
+			recipe.remove();
+			res.json({ message: "Deleted Recipe" });
+		} else {
+			res.send(404);
+		}
 	} catch (err) {
 		res.status(500).json({ message: err.message });
 	}

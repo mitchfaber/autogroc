@@ -14,7 +14,11 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
 	try {
 		const plan = await Plan.findById(req.params.id);
-		res.send(plan);
+		if (plan !== undefined) {
+			res.send(plan);
+		} else {
+			res.send(404);
+		}
 	} catch (err) {
 		res.status(400).json({ message: err.message });
 	}
@@ -22,8 +26,13 @@ router.get("/:id", async (req, res) => {
 // delete a meal plan
 router.delete("/delete/:id", async (req, res) => {
 	try {
-		await Plan.findByIdAndDelete(req.params.id);
-		res.send(202);
+		const plan = Plan.findById(req.params.id);
+		if (plan !== undefined) {
+			await Plan.findByIdAndDelete(req.params.id);
+			res.send(202);
+		} else {
+			res.send(404);
+		}
 	} catch (err) {
 		res.status(400).json({ message: err.message });
 	}
@@ -31,23 +40,27 @@ router.delete("/delete/:id", async (req, res) => {
 router.patch("/patch/:id", async (req, res) => {
 	try {
 		const plan = await Plan.findById(req.params.id);
-		if (req.body.startDate != null) {
-			plan.startDate = req.body.startDate;
+		if (plan !== undefined) {
+			if (req.body.startDate != null) {
+				plan.startDate = req.body.startDate;
+			}
+			if (req.body.endDate != null) {
+				plan.endDate = req.body.endDate;
+			}
+			if (req.body.recipes != null) {
+				plan.recipes = req.body.recipes;
+			}
+			if (req.body.recipes != null) {
+				plan.recipes = req.body.recipes;
+			}
+			if (req.body.ingredients != null) {
+				plan.ingredients = req.body.ingredients;
+			}
+			await plan.save();
+			res.send(200);
+		} else {
+			res.send(404);
 		}
-		if (req.body.endDate != null) {
-			plan.endDate = req.body.endDate;
-		}
-		if (req.body.recipes != null) {
-			plan.recipes = req.body.recipes;
-		}
-		if (req.body.recipes != null) {
-			plan.recipes = req.body.recipes;
-		}
-		if (req.body.ingredients != null) {
-			plan.ingredients = req.body.ingredients;
-		}
-		await plan.save();
-		res.send(200);
 	} catch (err) {
 		res.status(400).json({ message: err.message });
 	}

@@ -98,13 +98,11 @@ export default function List() {
 			.then((res) => res.json())
 			.then((results) => {
 				results.map((rec) => {
-					console.log(rec.name);
 					setRecNames((prevRecNames) => [...prevRecNames, { name: rec.name }]);
+					return console.log(rec.name);
 				});
 			});
 	}
-
-	function getIngredients() {}
 
 	function addRecipe() {
 		console.log(selectedRecText);
@@ -146,13 +144,12 @@ export default function List() {
 								);
 							})}
 						</select>
-						<div className="input-gorup append">
-							<span className="input-group-text">
-								<button onClick={addRecipe} className="btn btn-link text-secondary">
-									<FontAwesomeIcon icon={["fas", "plus"]} />
-								</button>
-							</span>
-						</div>
+
+						<span className="input-group-text">
+							<button onClick={addRecipe} className="btn btn-link text-secondary">
+								<FontAwesomeIcon icon={["fas", "plus"]} />
+							</button>
+						</span>
 					</div>
 					<table className="table">
 						<thead>
