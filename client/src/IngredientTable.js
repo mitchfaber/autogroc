@@ -18,6 +18,7 @@ export default function IngredientTable({ ingredients, removeIngredient, recipes
 			<tbody>
 				{ingredients &&
 					ingredients.map((e) => {
+						console.log(e);
 						return (
 							<tr key={uuidv4()}>
 								<td>{e.name}</td>
@@ -32,7 +33,7 @@ export default function IngredientTable({ ingredients, removeIngredient, recipes
 					})}
 				{recipes &&
 					recipes.map((e) => {
-						console.log(e.ingredients);
+						console.log(e);
 						return e.ingredients.map((i) => {
 							console.log(ingredients);
 							return (

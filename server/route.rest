@@ -2,7 +2,7 @@ GET http://localhost:8080/recipe
 
 ###
 
-GET http://localhost:8080/recipe/Tacos
+GET http://localhost:8080/recipe/test
 
 ###
 

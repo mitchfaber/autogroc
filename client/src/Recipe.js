@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
-import { v4 as uuidv4 } from "uuid";
 import IngredientTable from "./IngredientTable";
 
 library.add(fas);
@@ -11,13 +10,34 @@ export default function Recipe() {
 	const [name, setName] = useState("");
 	const [ingredient, setIngredient] = useState("");
 	const [ingredients, setIngredients] = useState([]);
+	const [recipe, setRecipe] = useState();
 
 	useEffect(() => {
 		setIngredient("");
 	}, [ingredients]);
 
+	useEffect(() => {
+		submitRecipe();
+	}, [recipe]);
+
 	function addIngredient() {
 		setIngredients((prevIng) => [...prevIng, { name: ingredient }]);
+	}
+
+	function createRecipe() {
+		console.log(ingredients);
+		setRecipe({ author: "Mitch Faber", name: name, ingredients: ingredients });
+	}
+
+	function submitRecipe() {
+		const requestOptions = {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(recipe),
+		};
+		fetch("http://localhost:8080/recipe/add", requestOptions)
+			.then((res) => res.json())
+			.then((result) => console.log(result));
 	}
 
 	function removeIngredient(name) {
@@ -58,7 +78,9 @@ export default function Recipe() {
 			<div className="row">
 				<div className="col-12 col-md-4">
 					<IngredientTable ingredients={ingredients} removeIngredient={removeIngredient} />
-					<button className="btn btn-primary">Submit</button>
+					<button onClick={createRecipe} className="btn btn-primary">
+						Submit
+					</button>
 				</div>
 			</div>
 		</div>

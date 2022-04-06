@@ -1,5 +1,4 @@
 const express = require("express");
-const { rawListeners } = require("../Models/Recipe");
 const router = express.Router();
 const Recipe = require("../Models/Recipe");
 
@@ -15,8 +14,8 @@ router.get("/", async (req, res) => {
 
 router.get("/:name", async (req, res) => {
 	try {
+		const recipe = await Recipe.findOne({ name: req.params.name });
 		if (recipe !== undefined) {
-			const recipe = await Recipe.findOne({ name: req.params.name });
 			res.send(recipe);
 		} else {
 			res.send(404);
@@ -40,14 +39,34 @@ router.delete("/delete/:name", async (req, res) => {
 	}
 });
 
-router.post("/add", async (req, res) => {
-	const recipe = new Recipe({
-		author: req.body.author,
-		name: req.body.name,
-		ingredients: req.body.ingredients,
-	});
-
+router.patch("/patch/:name", async (req, res) => {
 	try {
+		const recipe = await Recipe.findOne({ name: req.params.name });
+		if (recipe !== undefined) {
+			if (req.body.name !== undefined) {
+				recipe.name = req.body.name;
+			}
+			if (req.body.ingredients !== undefined) {
+				recipe.ingredients = req.body.ingredients;
+			}
+			await recipe.save();
+			res.send(200);
+		} else {
+			res.send(404);
+		}
+	} catch (err) {
+		res.status(400).json({ message: err.message });
+	}
+});
+
+router.post("/add", async (req, res) => {
+	try {
+		console.log("\n\n" + req.body.name);
+		const recipe = new Recipe({
+			author: req.body.author,
+			name: req.body.name,
+			ingredients: req.body.ingredients,
+		});
 		const newRecipe = await recipe.save();
 		res.status(201).json(newRecipe);
 	} catch (err) {
