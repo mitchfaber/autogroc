@@ -53,7 +53,7 @@ export default function Recipes() {
 										<tr key={uuidv4()}>
 											<td>{recipe.name}</td>
 											<td>
-												<Link className="btn" to={`/recipe/${recipe.name}`}>
+												<Link className="btn" to={`/recipes/${recipe.name}`}>
 													<FontAwesomeIcon icon={["fas", "pen-to-square"]} />
 												</Link>
 											</td>

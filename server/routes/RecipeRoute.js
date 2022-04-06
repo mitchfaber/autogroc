@@ -8,7 +8,7 @@ router.get("/", async (req, res) => {
 		const recipes = await Recipe.find();
 		res.send(recipes);
 	} catch (err) {
-		res.status(500).json({ message: err.message });
+		res.sendStatus(500).json({ message: err.message });
 	}
 });
 
@@ -21,7 +21,7 @@ router.get("/:name", async (req, res) => {
 			res.send(404);
 		}
 	} catch (err) {
-		res.status(500).json({ message: err.message });
+		res.sendStatus(500).json({ message: err.message });
 	}
 });
 
@@ -32,7 +32,7 @@ router.delete("/delete/:name", async (req, res) => {
 			recipe.remove();
 			res.json({ message: "Deleted Recipe" });
 		} else {
-			res.send(404);
+			res.sendStatus(404);
 		}
 	} catch (err) {
 		res.status(500).json({ message: err.message });
@@ -50,9 +50,9 @@ router.patch("/patch/:name", async (req, res) => {
 				recipe.ingredients = req.body.ingredients;
 			}
 			await recipe.save();
-			res.send(200);
+			res.sendStatus(200);
 		} else {
-			res.send(404);
+			res.sendStatus(404);
 		}
 	} catch (err) {
 		res.status(400).json({ message: err.message });

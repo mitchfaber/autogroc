@@ -14,7 +14,7 @@ function App() {
 					<Route path="/create-list" element={<List />} />
 					<Route path="/plan/:id" element={<List />} />
 					<Route path="/recipes" element={<Recipes />} />
-					<Route path="/recipes/:id" element={<Recipes />} />
+					<Route path="/recipes/:name" element={<Recipe />} />
 					<Route path="/recipes/new" element={<Recipe />} />
 				</Routes>
 			</Router>

@@ -3,21 +3,38 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import IngredientTable from "./IngredientTable";
+import { useParams } from "react-router";
 
 library.add(fas);
 
 export default function Recipe() {
-	const [name, setName] = useState("");
+	const [recName, setRecName] = useState("");
 	const [ingredient, setIngredient] = useState("");
 	const [ingredients, setIngredients] = useState([]);
 	const [recipe, setRecipe] = useState();
+	let { name } = useParams();
+
+	useEffect(() => {
+		if (name !== undefined) {
+			setRecName(name);
+			fetch(`http://localhost:8080/recipe/${name}`)
+				.then((res) => res.json())
+				.then((result) => {
+					setIngredients(result.ingredients);
+					setRecName(name);
+				});
+		}
+	}, []);
 
 	useEffect(() => {
 		setIngredient("");
 	}, [ingredients]);
 
 	useEffect(() => {
-		submitRecipe();
+		if (recipe !== undefined) {
+			console.log(recipe);
+			submitRecipe();
+		}
 	}, [recipe]);
 
 	function addIngredient() {
@@ -26,18 +43,32 @@ export default function Recipe() {
 
 	function createRecipe() {
 		console.log(ingredients);
-		setRecipe({ author: "Mitch Faber", name: name, ingredients: ingredients });
+		setRecipe({ author: "Mitch Faber", name: recName, ingredients: ingredients });
 	}
 
 	function submitRecipe() {
-		const requestOptions = {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify(recipe),
-		};
-		fetch("http://localhost:8080/recipe/add", requestOptions)
-			.then((res) => res.json())
-			.then((result) => console.log(result));
+		if (name !== undefined) {
+			const requestOptions = {
+				method: "PATCH",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(recipe),
+			};
+			// Make sure to use {name} so if user changes recipe name, it still works.
+			// TODO: Switch to using ID. Requires ServerSide changes as well.
+			console.log();
+			fetch(`http://localhost:8080/recipe/patch/${name}`, requestOptions);
+		} else {
+			const requestOptions = {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(recipe),
+			};
+			// Make sure to use {name} so if user changes recipe name, it still works.
+			// TODO: Switch to using ID. Requires ServerSide changes as well.
+			fetch(`http://localhost:8080/recipe/add`, requestOptions)
+				.then((res) => res.json())
+				.then((result) => console.log(result));
+		}
 	}
 
 	function removeIngredient(name) {
@@ -53,8 +84,8 @@ export default function Recipe() {
 							className="form-control"
 							placeholder="recipe name"
 							type="text"
-							value={name}
-							onInput={(e) => setName(e.target.value)}
+							value={recName}
+							onInput={(e) => setRecName(e.target.value)}
 						/>
 					</div>
 					<div className="mt-3 mb-3 input-group">
