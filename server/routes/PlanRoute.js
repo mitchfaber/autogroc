@@ -68,7 +68,6 @@ router.patch("/patch/:id", async (req, res) => {
 // adding a new meal plan
 router.post("/add", async (req, res) => {
 	try {
-		console.log(req.body);
 		const plan = new Plan({
 			author: req.body.author,
 			startDate: req.body.startDate,

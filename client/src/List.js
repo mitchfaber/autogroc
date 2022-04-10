@@ -19,6 +19,9 @@ export default function List() {
 	const [plan, setPlan] = useState();
 	const [startDate, setStartDate] = useState("");
 	const [endDate, setEndDate] = useState("");
+	const [submitted, setSubmitted] = useState(false);
+	const [error, setError] = useState(false);
+	const [errorCode, setErrorCode] = useState("");
 	let { id } = useParams();
 
 	useEffect(() => {
@@ -28,6 +31,12 @@ export default function List() {
 		}
 	}, []);
 
+	function keyDown(e) {
+		if (e.key === "Enter") {
+			addIngredient(input);
+		}
+	}
+
 	function getPlan() {
 		fetch(`http://localhost:8080/plan/${id}`)
 			.then((res) => res.json())
@@ -36,16 +45,21 @@ export default function List() {
 				setRecipes(result.recipes);
 				setStartDate(result.startDate);
 				setEndDate(result.endDate);
-				console.log(result.recipes);
 			});
 	}
+
+	useEffect(() => {
+		recipes.forEach((recipe) => {
+			console.log(recipe.name);
+			setRecNames(recNames.filter((recName) => recName.name !== recipe.name));
+		});
+	}, [recipes]);
 
 	function changedRec(e) {
 		setSelectedRecID(e.target.value);
 		if (e.target.value !== "nothing") {
 			setselectedRecText(e.target.value);
 		} else {
-			console.log(e);
 			setselectedRecText("nothing");
 		}
 	}
@@ -59,7 +73,14 @@ export default function List() {
 					body: JSON.stringify(plan),
 				};
 				fetch("http://localhost:8080/plan/add", requestOptions).then((res) => {
-					console.log(plan);
+					if (res.status === 200) {
+						setSubmitted(true);
+						setError(false);
+					} else {
+						setErrorCode(res.status);
+						setSubmitted(false);
+						setError(true);
+					}
 				});
 			} else {
 				const requestOptions = {
@@ -68,7 +89,14 @@ export default function List() {
 					body: JSON.stringify(plan),
 				};
 				fetch(`http://localhost:8080/plan/patch/${id}`, requestOptions).then((res) => {
-					console.log(plan);
+					if (res.status === 200) {
+						setSubmitted(true);
+						setError(false);
+					} else {
+						setErrorCode(res.status);
+						setSubmitted(false);
+						setError(true);
+					}
 				});
 			}
 		}
@@ -97,15 +125,13 @@ export default function List() {
 		fetch("http://localhost:8080/recipe", { method: "GET" })
 			.then((res) => res.json())
 			.then((results) => {
-				results.map((rec) => {
+				results.forEach((rec) => {
 					setRecNames((prevRecNames) => [...prevRecNames, { name: rec.name }]);
-					return console.log(rec.name);
 				});
 			});
 	}
 
 	function addRecipe() {
-		console.log(selectedRecText);
 		fetch("http://localhost:8080/recipe/" + selectedRecText, { method: "GET" })
 			.then((res) => res.json())
 			.then((results) => {
@@ -128,13 +154,11 @@ export default function List() {
 	return (
 		<div className="container">
 			<div className="row">
+				{submitted && <div className="mt-3 alert alert-success">Plan Saved</div>}
+				{error && <div className="mt-3 alert alert-danger">Error submitting plan. Code: {errorCode}</div>}
 				<div className="col-12 col-md-6">
 					<div className="mt-3 mb-3 input-group">
-						<select
-							onChange={changedRec}
-							value={selectedRecID}
-							className="btn btn-outline-secondary "
-							aria-label="Default select example">
+						<select onChange={changedRec} value={selectedRecID} className="btn btn-outline-secondary ">
 							<option value="nothing">Select a recipe</option>
 							{recNames.map((e) => {
 								return (
@@ -144,7 +168,6 @@ export default function List() {
 								);
 							})}
 						</select>
-
 						<span className="input-group-text">
 							<button onClick={addRecipe} className="btn btn-link text-secondary">
 								<FontAwesomeIcon icon={["fas", "plus"]} />
@@ -180,7 +203,13 @@ export default function List() {
 				</div>
 				<div className="col-12 col-md-6">
 					<div className="mt-3 mb-3 input-group">
-						<input className="form-control" type="text" value={input} onInput={(e) => setInput(e.target.value)} />
+						<input
+							className="form-control"
+							type="text"
+							value={input}
+							onKeyDown={keyDown}
+							onInput={(e) => setInput(e.target.value)}
+						/>
 						<div className="input-group-append">
 							<span className="input-group-text">
 								<button onClick={() => addIngredient(input)} className="btn btn-link text-secondary">

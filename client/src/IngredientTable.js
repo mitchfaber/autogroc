@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -18,7 +18,6 @@ export default function IngredientTable({ ingredients, removeIngredient, recipes
 			<tbody>
 				{ingredients &&
 					ingredients.map((e) => {
-						console.log(e);
 						return (
 							<tr key={uuidv4()}>
 								<td>{e.name}</td>
@@ -33,9 +32,7 @@ export default function IngredientTable({ ingredients, removeIngredient, recipes
 					})}
 				{recipes &&
 					recipes.map((e) => {
-						console.log(e);
 						return e.ingredients.map((i) => {
-							console.log(ingredients);
 							return (
 								<tr key={uuidv4()}>
 									<td>{i.name}</td>

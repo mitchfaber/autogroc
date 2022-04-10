@@ -61,7 +61,6 @@ router.patch("/patch/:name", async (req, res) => {
 
 router.post("/add", async (req, res) => {
 	try {
-		console.log("\n\n" + req.body.name);
 		const recipe = new Recipe({
 			author: req.body.author,
 			name: req.body.name,

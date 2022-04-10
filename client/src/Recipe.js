@@ -12,6 +12,9 @@ export default function Recipe() {
 	const [ingredient, setIngredient] = useState("");
 	const [ingredients, setIngredients] = useState([]);
 	const [recipe, setRecipe] = useState();
+	const [submitted, setSubmitted] = useState(false);
+	const [error, setError] = useState(false);
+	const [errorCode, setErrorCode] = useState(false);
 	let { name } = useParams();
 
 	useEffect(() => {
@@ -32,17 +35,22 @@ export default function Recipe() {
 
 	useEffect(() => {
 		if (recipe !== undefined) {
-			console.log(recipe);
 			submitRecipe();
 		}
 	}, [recipe]);
+
+	function keyDown(e) {
+		console.log(e);
+		if (e.key === "Enter") {
+			addIngredient();
+		}
+	}
 
 	function addIngredient() {
 		setIngredients((prevIng) => [...prevIng, { name: ingredient }]);
 	}
 
 	function createRecipe() {
-		console.log(ingredients);
 		setRecipe({ author: "Mitch Faber", name: recName, ingredients: ingredients });
 	}
 
@@ -55,8 +63,16 @@ export default function Recipe() {
 			};
 			// Make sure to use {name} so if user changes recipe name, it still works.
 			// TODO: Switch to using ID. Requires ServerSide changes as well.
-			console.log();
-			fetch(`http://localhost:8080/recipe/patch/${name}`, requestOptions);
+			fetch(`http://localhost:8080/recipe/patch/${name}`, requestOptions).then((res) => {
+				if (res.status === 201) {
+					setSubmitted(true);
+					setError(false);
+				} else {
+					setErrorCode(res.status);
+					setSubmitted(false);
+					setError(true);
+				}
+			});
 		} else {
 			const requestOptions = {
 				method: "POST",
@@ -64,10 +80,17 @@ export default function Recipe() {
 				body: JSON.stringify(recipe),
 			};
 			// Make sure to use {name} so if user changes recipe name, it still works.
-			// TODO: Switch to using ID. Requires ServerSide changes as well.
-			fetch(`http://localhost:8080/recipe/add`, requestOptions)
-				.then((res) => res.json())
-				.then((result) => console.log(result));
+			// TODO: Switch to using ID. Requires server changes as well.
+			fetch(`http://localhost:8080/recipe/add`, requestOptions).then((res) => {
+				if (res.status === 201) {
+					setSubmitted(true);
+					setError(false);
+				} else {
+					setErrorCode(res.status);
+					setSubmitted(false);
+					setError(true);
+				}
+			});
 		}
 	}
 
@@ -78,6 +101,8 @@ export default function Recipe() {
 	return (
 		<div className="container">
 			<div className="row">
+				{submitted && <div className="mt-3 alert alert-success">Recipe Saved</div>}
+				{error && <div className="mt-3 alert alert-danger">Error submitting Recipe. Code: {errorCode}</div>}
 				<div className="col-12 col-md-4">
 					<div className="mt-3 mb-3 input-group">
 						<input
@@ -94,6 +119,7 @@ export default function Recipe() {
 							placeholder="ingredient"
 							type="text"
 							value={ingredient}
+							onKeyDown={keyDown}
 							onInput={(e) => setIngredient(e.target.value)}
 						/>
 						<div className="input-group-append">

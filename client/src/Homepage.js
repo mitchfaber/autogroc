@@ -25,9 +25,7 @@ export default function Homepage() {
 	}
 
 	function deletePlan(id) {
-		console.log(id);
 		fetch(`http://localhost:8080/plan/delete/${id}`, { method: "DELETE" }).then((res) => {
-			console.log(res);
 			getPlans();
 		});
 	}
