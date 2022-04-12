@@ -103,6 +103,7 @@ export default function Recipe() {
 			<div className="row">
 				{submitted && <div className="mt-3 alert alert-success">Recipe Saved</div>}
 				{error && <div className="mt-3 alert alert-danger">Error submitting Recipe. Code: {errorCode}</div>}
+
 				<div className="col-12 col-md-4">
 					<div className="mt-3 mb-3 input-group">
 						<input
@@ -113,23 +114,26 @@ export default function Recipe() {
 							onInput={(e) => setRecName(e.target.value)}
 						/>
 					</div>
-					<div className="mt-3 mb-3 input-group">
-						<input
-							className="form-control"
-							placeholder="ingredient"
-							type="text"
-							value={ingredient}
-							onKeyDown={keyDown}
-							onInput={(e) => setIngredient(e.target.value)}
-						/>
-						<div className="input-group-append">
-							<span className="input-group-text">
-								<button onClick={addIngredient} className="btn btn-link text-secondary">
-									<FontAwesomeIcon icon={["fas", "plus"]} />
-								</button>
-							</span>
+					<form>
+						<div className="mt-3 mb-3 input-group">
+							<input
+								className="form-control"
+								placeholder="ingredient"
+								type="text"
+								value={ingredient}
+								onKeyDown={keyDown}
+								onInput={(e) => setIngredient(e.target.value)}
+								required
+							/>
+							<div className="input-group-append">
+								<span className="input-group-text">
+									<button type="submit" onSubmit={addIngredient} className="btn btn-link text-secondary">
+										<FontAwesomeIcon icon={["fas", "plus"]} />
+									</button>
+								</span>
+							</div>
 						</div>
-					</div>
+					</form>
 				</div>
 			</div>
 			<div className="row">
