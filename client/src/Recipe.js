@@ -4,6 +4,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import IngredientTable from "./IngredientTable";
 import { useParams } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 library.add(fas);
 
@@ -15,6 +16,8 @@ export default function Recipe() {
 	const [submitted, setSubmitted] = useState(false);
 	const [error, setError] = useState(false);
 	const [errorCode, setErrorCode] = useState(false);
+	const navigate = useNavigate();
+
 	let { name } = useParams();
 
 	useEffect(() => {
@@ -28,6 +31,12 @@ export default function Recipe() {
 				});
 		}
 	}, []);
+
+	useEffect(() => {
+		if (submitted) {
+			navigate("/recipes");
+		}
+	}, [submitted]);
 
 	useEffect(() => {
 		setIngredient("");
@@ -46,12 +55,25 @@ export default function Recipe() {
 		}
 	}
 
-	function addIngredient() {
-		setIngredients((prevIng) => [...prevIng, { name: ingredient }]);
+	function addIngredient(e) {
+		if (ingredient !== "") {
+			setError(false);
+			setIngredients((prevIng) => [...prevIng, { name: ingredient }]);
+		} else {
+			setError(true);
+			setErrorCode("Enter an ingredient");
+		}
 	}
 
 	function createRecipe() {
-		setRecipe({ author: "Mitch Faber", name: recName, ingredients: ingredients });
+		if (recName !== "" && ingredients.length > 0) {
+			console.log(ingredients);
+			setError(false);
+			setRecipe({ author: "Mitch Faber", name: recName, ingredients: ingredients });
+		} else {
+			setError(true);
+			setErrorCode("Enter all fields");
+		}
 	}
 
 	function submitRecipe() {
@@ -63,16 +85,18 @@ export default function Recipe() {
 			};
 			// Make sure to use {name} so if user changes recipe name, it still works.
 			// TODO: Switch to using ID. Requires ServerSide changes as well.
-			fetch(`http://localhost:8080/recipe/patch/${name}`, requestOptions).then((res) => {
-				if (res.status === 201) {
-					setSubmitted(true);
-					setError(false);
-				} else {
-					setErrorCode(res.status);
-					setSubmitted(false);
-					setError(true);
-				}
-			});
+			fetch(`http://localhost:8080/recipe/patch/${name}`, requestOptions)
+				.then((res) => res.json())
+				.then((result) => {
+					if (result.status === 201) {
+						setSubmitted(true);
+						setError(false);
+					} else {
+						setErrorCode(result.message);
+						setSubmitted(false);
+						setError(true);
+					}
+				});
 		} else {
 			const requestOptions = {
 				method: "POST",
@@ -81,16 +105,25 @@ export default function Recipe() {
 			};
 			// Make sure to use {name} so if user changes recipe name, it still works.
 			// TODO: Switch to using ID. Requires server changes as well.
-			fetch(`http://localhost:8080/recipe/add`, requestOptions).then((res) => {
-				if (res.status === 201) {
-					setSubmitted(true);
-					setError(false);
-				} else {
-					setErrorCode(res.status);
-					setSubmitted(false);
-					setError(true);
-				}
-			});
+			let status;
+			fetch(`http://localhost:8080/recipe/add`, requestOptions)
+				.then((res) => {
+					status = res.status;
+					return res.json();
+				})
+				.then((result) => {
+					console.log(status);
+					if (status === 201) {
+						setSubmitted(true);
+						setError(false);
+						return submitted;
+					} else {
+						console.log(result);
+						setErrorCode(result.message);
+						setSubmitted(false);
+						setError(true);
+					}
+				});
 		}
 	}
 
@@ -102,8 +135,7 @@ export default function Recipe() {
 		<div className="container">
 			<div className="row">
 				{submitted && <div className="mt-3 alert alert-success">Recipe Saved</div>}
-				{error && <div className="mt-3 alert alert-danger">Error submitting Recipe. Code: {errorCode}</div>}
-
+				{error && <div className="mt-3 alert alert-danger">Error submitting Recipe: {errorCode}</div>}
 				<div className="col-12 col-md-4">
 					<div className="mt-3 mb-3 input-group">
 						<input
@@ -112,28 +144,26 @@ export default function Recipe() {
 							type="text"
 							value={recName}
 							onInput={(e) => setRecName(e.target.value)}
+							required
 						/>
 					</div>
-					<form>
-						<div className="mt-3 mb-3 input-group">
-							<input
-								className="form-control"
-								placeholder="ingredient"
-								type="text"
-								value={ingredient}
-								onKeyDown={keyDown}
-								onInput={(e) => setIngredient(e.target.value)}
-								required
-							/>
-							<div className="input-group-append">
-								<span className="input-group-text">
-									<button type="submit" onSubmit={addIngredient} className="btn btn-link text-secondary">
-										<FontAwesomeIcon icon={["fas", "plus"]} />
-									</button>
-								</span>
-							</div>
+					<div className="mt-3 mb-3 input-group">
+						<input
+							className="form-control"
+							placeholder="ingredient"
+							type="text"
+							value={ingredient}
+							onKeyDown={keyDown}
+							onInput={(e) => setIngredient(e.target.value)}
+						/>
+						<div className="input-group-append">
+							<span className="input-group-text">
+								<button type="submit" onClick={addIngredient} className="btn btn-link text-secondary">
+									<FontAwesomeIcon icon={["fas", "plus"]} />
+								</button>
+							</span>
 						</div>
-					</form>
+					</div>
 				</div>
 			</div>
 			<div className="row">

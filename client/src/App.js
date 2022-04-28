@@ -1,7 +1,7 @@
 import Navbar from "./Navbar";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Homepage from "./Homepage";
-import List from "./List";
+import Plan from "./Plan";
 import Recipes from "./Recipes";
 import Recipe from "./Recipe";
 function App() {
@@ -11,8 +11,9 @@ function App() {
 				<Navbar />
 				<Routes>
 					<Route path="/" element={<Homepage />} />
-					<Route path="/create-list" element={<List />} />
-					<Route path="/plan/:id" element={<List />} />
+					<Route path="/create-list" element={<Plan />} />
+					<Route path="/plan/:id" element={<Plan />} />
+					<Route path="/plan/:id/view" element={<Plan />} />
 					<Route path="/recipes" element={<Recipes />} />
 					<Route path="/recipes/:name" element={<Recipe />} />
 					<Route path="/recipes/new" element={<Recipe />} />

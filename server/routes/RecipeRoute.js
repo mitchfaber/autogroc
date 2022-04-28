@@ -61,14 +61,22 @@ router.patch("/patch/:name", async (req, res) => {
 
 router.post("/add", async (req, res) => {
 	try {
-		const recipe = new Recipe({
-			author: req.body.author,
-			name: req.body.name,
-			ingredients: req.body.ingredients,
-		});
-		const newRecipe = await recipe.save();
-		res.status(201).json(newRecipe);
+		const findRecipe = await Recipe.findOne({ name: req.body.name });
+		if (findRecipe !== undefined && findRecipe !== null) {
+			res.status(409).json({ message: "Resource already exists" });
+		} else {
+			console.log(findRecipe);
+			const recipe = new Recipe({
+				author: req.body.author,
+				name: req.body.name,
+				ingredients: req.body.ingredients,
+			});
+
+			const newRecipe = await recipe.save();
+			res.status(201).json(newRecipe);
+		}
 	} catch (err) {
+		console.log(err.message);
 		res.status(400).json({ messgae: err.message });
 	}
 });
