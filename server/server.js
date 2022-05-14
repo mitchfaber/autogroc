@@ -22,6 +22,6 @@ app.use("/recipe", recRouter);
 const planRouter = require("./routes/PlanRoute");
 app.use("/plan", planRouter);
 
-app.listen(8080, () => {
+app.listen(5000, () => {
 	console.log("Server Started");
 });
