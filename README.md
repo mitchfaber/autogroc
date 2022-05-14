@@ -23,30 +23,30 @@ App created using REACT frontend, NODE backend, and MONGO for database. Bootstra
 
 Adding a recipe
 
-![Form for creating a recipe. Add ingredients and Recipe Name](Images\AddRecipe.png) ![Form for creating a recipe. Filled Out](Images\AddRecipeFilledOut.png)
+![Form for creating a recipe. Add ingredients and Recipe Name](Images/AddRecipe.png) ![Form for creating a recipe. Filled Out](Images/AddRecipeFilledOut.png)
 
 Edit and Delete buttons for Recipes.
 
-![List of Recipes. BBQ Chicken.](Images\ListofRec.png)
+![List of Recipes. BBQ Chicken.](Images/ListofRec.png)
 
 Create a Grocery List.
 
-![Form for creating a grocery List](Images\Createlist.png)
+![Form for creating a grocery List](Images/Createlist.png)
 
-![Form for creating a grocery List filled out](Images\AddListFilledOut.png)
+![Form for creating a grocery List filled out](Images/AddListFilledOut.png)
 
-![Form for creating a grocery List filled out](Images\AddListFilledOut2.png)
+![Form for creating a grocery List filled out](Images/AddListFilledOut2.png)
 
 Some of the list errors
 
-![Form for creating a grocery List with date error](Images\AddListError.png)
+![Form for creating a grocery List with date error](Images/AddListError.png)
 
-![Form for creating a grocery List with empty field error](Images\AddListError2.png)
+![Form for creating a grocery List with empty field error](Images/AddListError2.png)
 
 List of plans on homepage, edit and delete from here
 
-![Homepage, list of grocery lists with dates](Images\ListOfPlansHomepage.png)
+![Homepage, list of grocery lists with dates](Images/ListOfPlansHomepage.png)
 
 Once a recipe is added to the list you cannot add it again. This is a decision I am still unsure about.
 
-![Homepage, list of grocery lists with dates](Images\EditPlanNoRecipes.png)
+![Homepage, list of grocery lists with dates](Images/EditPlanNoRecipes.png)
