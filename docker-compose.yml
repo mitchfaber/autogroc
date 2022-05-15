@@ -13,7 +13,7 @@ services:
     volumes:
       - ./server:/server/
     ports:
-      - 5000:5000
+      - 8080:8080
     networks:
       - shared-network
     depends_on:
@@ -31,7 +31,7 @@ services:
     volumes:
       - ./client:/client/
     ports:
-      - 80:80
+      - 3000:3000
     networks:
       - shared-network
     depends_on:
