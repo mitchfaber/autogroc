@@ -48,12 +48,12 @@ export default function Homepage() {
 														{plan.startDate} - {plan.endDate}
 													</td>
 													<td>
-														<Link className="btn btn-success" to={`/plan/${plan._id}`}>
+														<Link className="btn btn-success" to={`/plan/${plan._id}/check`}>
 															<FontAwesomeIcon icon={["fas", "list-check"]} />
 														</Link>
 													</td>
 													<td>
-														<Link className="btn btn-warning" to={`/plan/${plan._id}`}>
+														<Link className="btn btn-warning" to={`/plan/${plan._id}/edit`}>
 															<FontAwesomeIcon icon={["fas", "pen-to-square"]} />
 														</Link>
 													</td>
