@@ -14,39 +14,55 @@ export default function CheckList() {
 	library.add(far);
 	library.add(fas);
 
+	function checkItem(e) {
+		console.log(e.currentTarget.value);
+		let myIngredient = ingredients.filter((ing) => {
+			return ing.name === e.currentTarget.value;
+		});
+		myIngredient.checked = !myIngredient.checked;
+		console.log(myIngredient);
+	}
+
 	function getPlan() {
 		fetch(`http://localhost:8080/plan/${id}`)
 			.then((res) => res.json())
 			.then((result) => {
-				console.log(result);
 				setIngredients(result.ingredients);
+				console.log(result);
+				result.recipes.forEach((recipe) => {
+					console.log(recipe.ingredients);
+					setIngredients((prevIng) => [...prevIng, ...recipe.ingredients]);
+					console.log(ingredients);
+				});
 				setLoading(false);
+				//setIngredients([...ingredients, result.recipes.ingredients]);
 			});
 	}
 
 	useEffect(() => {
 		getPlan();
 	}, []);
+
 	if (loading === false) {
 		return (
 			<div className="container">
 				<div className="row">
-					<table>
-						<tbody>
-							{ingredients.map((ing) => {
-								return (
-									<tr key={uuidv4()}>
-										<td>
-											<button class="btn">
-												<FontAwesomeIcon icon={["far", "circle"]} />
-											</button>
-										</td>
-										<td>{ing.name}</td>
-									</tr>
-								);
-							})}
-						</tbody>
-					</table>
+					<div className="list-group">
+						{ingredients.map((ing) => {
+							return (
+								<div key={uuidv4()} className="d-flex align-items-center ">
+									<button className="btn" onClick={checkItem} value={ing.name}>
+										{ing.checked ? (
+											<FontAwesomeIcon icon={["far", "circle-check"]} />
+										) : (
+											<FontAwesomeIcon icon={["far", "circle"]} />
+										)}
+									</button>
+									{ing.name}
+								</div>
+							);
+						})}
+					</div>
 				</div>
 			</div>
 		);
