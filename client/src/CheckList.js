@@ -41,6 +41,12 @@ export default function CheckList() {
 		getPlan();
 	}, []);
 
+	useEffect(() => {
+		ingredients.forEach((ing) => {
+			console.log(ing.checked);
+		});
+	}, [ingredients]);
+
 	if (loading === false) {
 		return (
 			<div className="container">
