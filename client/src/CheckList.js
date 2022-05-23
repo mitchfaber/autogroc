@@ -15,12 +15,10 @@ export default function CheckList() {
 	library.add(fas);
 
 	function checkItem(e) {
-		console.log(e.currentTarget.value);
-		let myIngredient = ingredients.filter((ing) => {
-			return ing.name === e.currentTarget.value;
-		});
-		myIngredient.checked = !myIngredient.checked;
-		console.log(myIngredient);
+		const newIngs = [...ingredients];
+		const ing = newIngs.find((ing) => ing.name === e.currentTarget.value);
+		ing.checked = !ing.checked;
+		setIngredients(newIngs);
 	}
 
 	function getPlan() {
