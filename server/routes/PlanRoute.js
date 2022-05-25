@@ -56,6 +56,9 @@ router.patch("/patch/:id", async (req, res) => {
 			if (req.body.ingredients != null) {
 				plan.ingredients = req.body.ingredients;
 			}
+			if (req.body.complete != null) {
+				plan.complete = req.body.complete;
+			}
 			await plan.save();
 			res.send(200);
 		} else {

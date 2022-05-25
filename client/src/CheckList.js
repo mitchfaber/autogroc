@@ -11,6 +11,8 @@ export default function CheckList() {
 	let { id } = useParams();
 	const [loading, setLoading] = useState(true);
 	const [ingredients, setIngredients] = useState([]);
+	const [complete, setComplete] = useState(false);
+	const [plan, setPlan] = useState();
 	library.add(far);
 	library.add(fas);
 
@@ -26,6 +28,8 @@ export default function CheckList() {
 			.then((res) => res.json())
 			.then((result) => {
 				setIngredients(result.ingredients);
+				setPlan(result);
+				setComplete(result.complete);
 				console.log(result);
 				result.recipes.forEach((recipe) => {
 					console.log(recipe.ingredients);
@@ -42,15 +46,31 @@ export default function CheckList() {
 	}, []);
 
 	useEffect(() => {
-		ingredients.forEach((ing) => {
-			console.log(ing.checked);
-		});
+		// checks to see if all the ingredients have been checked off to mark the list as complete.
+		if (ingredients.filter((e) => e.checked === false).length === 0) {
+			setComplete(true);
+		} else {
+			setComplete(false);
+		}
+		const requestOptions = {
+			method: "PATCH",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(plan),
+		};
+		fetch(`http://localhost:8080/plan/patch/${id}`, requestOptions)
+			.then((res) => res.json())
+			.then((result) => console.log(result));
 	}, [ingredients]);
+
+	useEffect(() => {
+		console.log(complete);
+	}, [complete]);
 
 	if (loading === false) {
 		return (
 			<div className="container">
 				<div className="row">
+					{complete && <div className="mt-3 alert alert-success">Plan Complete!</div>}
 					<div className="list-group">
 						{ingredients.map((ing) => {
 							return (
