@@ -27,44 +27,54 @@ export default function CheckList() {
 		fetch(`http://localhost:8080/plan/${id}`)
 			.then((res) => res.json())
 			.then((result) => {
-				setIngredients(result.ingredients);
 				setPlan(result);
-				setComplete(result.complete);
-				console.log(result);
-				result.recipes.forEach((recipe) => {
-					console.log(recipe.ingredients);
-					setIngredients((prevIng) => [...prevIng, ...recipe.ingredients]);
-					console.log(ingredients);
-				});
-				setLoading(false);
-				//setIngredients([...ingredients, result.recipes.ingredients]);
 			});
 	}
+
+	useEffect(() => {
+		if (plan !== undefined) {
+			console.log(plan);
+			setComplete(plan.complete);
+			setIngredients(plan.ingredients);
+			console.log(plan);
+			plan.recipes.forEach((recipe) => {
+				console.log(recipe.ingredients);
+				setIngredients((prevIng) => [...prevIng, ...recipe.ingredients]);
+				console.log(ingredients);
+			});
+			//setIngredients([...ingredients, result.recipes.ingredients]);
+			setLoading(false);
+		}
+	}, [plan]);
 
 	useEffect(() => {
 		getPlan();
 	}, []);
 
 	useEffect(() => {
-		// checks to see if all the ingredients have been checked off to mark the list as complete.
-		if (ingredients.filter((e) => e.checked === false).length === 0) {
-			setComplete(true);
-		} else {
-			setComplete(false);
+		if (plan !== undefined) {
+			// checks to see if all the ingredients have been checked off to mark the list as complete.
+			if (ingredients.filter((e) => e.checked === false).length === 0) {
+				const newPlan = plan;
+				newPlan.complete = true;
+				setPlan(newPlan);
+				setComplete(true);
+			} else {
+				const newPlan = plan;
+				newPlan.complete = false;
+				setPlan(newPlan);
+				setComplete(false);
+			}
+			const requestOptions = {
+				method: "PATCH",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(plan),
+			};
+			fetch(`http://localhost:8080/plan/patch/${id}`, requestOptions);
 		}
-		const requestOptions = {
-			method: "PATCH",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify(plan),
-		};
-		fetch(`http://localhost:8080/plan/patch/${id}`, requestOptions)
-			.then((res) => res.json())
-			.then((result) => console.log(result));
 	}, [ingredients]);
 
-	useEffect(() => {
-		console.log(complete);
-	}, [complete]);
+	useEffect(() => {}, [complete]);
 
 	if (loading === false) {
 		return (
