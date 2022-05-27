@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { fas } from "@fortawesome/free-solid-svg-icons";
+import { faPlaneArrival, fas } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
 library.add(fas);
@@ -45,10 +45,24 @@ export default function Homepage() {
 											return (
 												<tr key={uuidv4()}>
 													<td>
+														{plan.complete && (
+															<FontAwesomeIcon
+																className="text-success"
+																icon={["fas", "square-check"]}
+																size="xl"
+															/>
+														)}
+													</td>
+													<td>
 														{plan.startDate} - {plan.endDate}
 													</td>
 													<td>
-														<Link className="btn" to={`/plan/${plan._id}`}>
+														<Link className="btn btn-primary" to={`/plan/${plan._id}/check`}>
+															<FontAwesomeIcon icon={["fas", "list-check"]} />
+														</Link>
+													</td>
+													<td>
+														<Link className="btn btn-warning" to={`/plan/${plan._id}/edit`}>
 															<FontAwesomeIcon icon={["fas", "pen-to-square"]} />
 														</Link>
 													</td>

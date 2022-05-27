@@ -20,10 +20,15 @@ const planSchema = new mongoose.Schema({
 			name: {
 				type: String,
 			},
-			ingredients: [],
+			ingredients: [{ name: { type: String }, checked: { type: Boolean, required: true, default: false } }],
 		},
 	],
-	ingredients: [{ name: { type: String } }],
+	ingredients: [{ name: { type: String }, checked: { type: Boolean, required: true, default: false } }],
+	complete: {
+		type: Boolean,
+		required: true,
+		default: false,
+	},
 });
 
 module.exports = mongoose.model("Plan", planSchema);

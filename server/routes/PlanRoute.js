@@ -56,10 +56,13 @@ router.patch("/patch/:id", async (req, res) => {
 			if (req.body.ingredients != null) {
 				plan.ingredients = req.body.ingredients;
 			}
+			if (req.body.complete != null) {
+				plan.complete = req.body.complete;
+			}
 			await plan.save();
-			res.send(200);
+			res.sendStatus(200);
 		} else {
-			res.send(404);
+			res.sendStatus(404);
 		}
 	} catch (err) {
 		res.status(400).json({ message: err.message });
