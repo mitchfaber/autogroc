@@ -11,7 +11,6 @@ App created using REACT frontend, NODE backend, and MONGO for database. Bootstra
     -   Add, Edit, Remove ingredients
 -   Mark plans/lists as complete
     -   Mark specific ingredients, whole recipes, and the entire list
--   Set an auto archive process for plans/lists to be removed, regardless of completion.
 
 ## How to run
 
