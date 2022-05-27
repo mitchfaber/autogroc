@@ -38,15 +38,15 @@ export default function Homepage() {
 			<div className="container">
 				<div
 					className="modal fade"
-					id="exampleModal"
+					id="alertModal"
 					tabIndex="-1"
 					role="dialog"
-					aria-labelledby="exampleModalLabel"
+					aria-labelledby="alertModalLabel"
 					aria-hidden="true">
 					<div className="modal-dialog" role="document">
 						<div className="modal-content">
 							<div className="modal-header">
-								<h5 className="modal-title" id="exampleModalLabel">
+								<h5 className="modal-title" id="alertModalLabel">
 									Delete Meal plan?
 								</h5>
 								<button type="button" className="close" data-dismiss="modal" aria-label="Close">
@@ -110,7 +110,7 @@ export default function Homepage() {
 														) : (
 															<button
 																data-toggle="modal"
-																data-target="#exampleModal"
+																data-target="#alertModal"
 																className="btn btn-danger"
 																onClick={() => (id = plan._id)}>
 																<FontAwesomeIcon icon={["fas", "trash"]} />
