@@ -15,7 +15,6 @@ function App() {
 					<Route path="/" element={<Homepage />} />
 					<Route path="/create-list" element={<Plan />} />
 					<Route path="/plan/:id/edit" element={<Plan />} />
-					{/* <Route path="/plan/:id/view" element={<Plan />} /> */}
 					<Route path="/plan/:id/check" element={<CheckList />} />
 					<Route path="/recipes" element={<Recipes />} />
 					<Route path="/recipes/:name" element={<Recipe />} />

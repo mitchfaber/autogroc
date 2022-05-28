@@ -69,7 +69,7 @@ export default function Recipe() {
 		if (recName !== "" && ingredients.length > 0) {
 			console.log(ingredients);
 			setError(false);
-			setRecipe({ author: "Mitch Faber", name: recName, ingredients: ingredients });
+			setRecipe({ name: recName, ingredients: ingredients });
 		} else {
 			setError(true);
 			setErrorCode("Enter all fields");

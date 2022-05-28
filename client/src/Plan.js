@@ -111,8 +111,8 @@ export default function Plan() {
 				setError(true);
 				setErrorCode("Nothing entered for list");
 			} else {
+				console.log(recipes);
 				setPlan({
-					author: "Mitch Faber",
 					startDate: startDate,
 					endDate: endDate,
 					recipes: recipes,
@@ -207,7 +207,14 @@ export default function Plan() {
 											</button>
 										</td>
 										<td>
-											<input className="form-control" type="text" />
+											<input
+												className="form-control"
+												type="text"
+												onInput={(i) => {
+													e.notes = i.target.value;
+												}}
+												value={e.notes}
+											/>
 										</td>
 									</tr>
 								);
