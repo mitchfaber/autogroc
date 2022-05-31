@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
 
 const planSchema = new mongoose.Schema({
-	author: {
-		type: String,
-		required: true,
-	},
 	startDate: {
 		type: String,
 		required: true,
@@ -18,6 +14,9 @@ const planSchema = new mongoose.Schema({
 	recipes: [
 		{
 			name: {
+				type: String,
+			},
+			notes: {
 				type: String,
 			},
 			ingredients: [{ name: { type: String }, checked: { type: Boolean, required: true, default: false } }],

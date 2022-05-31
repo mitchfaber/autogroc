@@ -14,7 +14,6 @@ POST http://localhost:8080/recipe/add
 Content-Type: application/json
 
 {
-    "author": "Mitch Faber",
     "name":"Tacos",
     "ingredients": [
         {"name":"Ground Beef"},
@@ -36,7 +35,6 @@ POST http://localhost:8080/plan/add/
 Content-Type: application/json
 
 {
-    "author": "Mitch Faber",
     "startDate":"March 27, 2022",
     "endDate":"April 1, 2022",
     "recipes": [

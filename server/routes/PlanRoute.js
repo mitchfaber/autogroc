@@ -72,7 +72,6 @@ router.patch("/patch/:id", async (req, res) => {
 router.post("/add", async (req, res) => {
 	try {
 		const plan = new Plan({
-			author: req.body.author,
 			startDate: req.body.startDate,
 			endDate: req.body.endDate,
 			recipes: req.body.recipes,

@@ -67,7 +67,6 @@ router.post("/add", async (req, res) => {
 		} else {
 			console.log(findRecipe);
 			const recipe = new Recipe({
-				author: req.body.author,
 				name: req.body.name,
 				ingredients: req.body.ingredients,
 			});
