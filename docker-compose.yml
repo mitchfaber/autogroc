@@ -1,13 +1,14 @@
-version: '2.2.3'
+version: '2.2'
 
 services:
-  api:
+  server:
     container_name: groc-server
     restart: always
     image: groc-server
+    environment:
+      - DATABASE_URL=mongodb://groc-db:27017/autogroc
     build:
       context: server
-      target: production
       dockerfile: dockerfile
     volumes:
       - ./server:/server/
@@ -15,6 +16,10 @@ services:
       - 8080:8080
     networks:
       - shared-network
+    depends_on:
+      - groc-db
+    links:
+      - groc-db
 
   client:
     container_name: groc-client
@@ -22,7 +27,6 @@ services:
     image: groc-client
     build:
       context: client
-      target: production
       dockerfile: dockerfile
     volumes:
       - ./client:/client/
@@ -32,6 +36,17 @@ services:
       - shared-network
     depends_on:
       - server
+    links:
+      - server:se
+
+  groc-db:
+    image : mongo
+    container_name: groc-db
+    ports:
+      - 27017:27017
+    restart: unless-stopped
+    networks:
+      - shared-network
 
 networks:
   shared-network:

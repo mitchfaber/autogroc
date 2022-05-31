@@ -1,0 +1,58 @@
+GET http://localhost:8080/recipe
+
+###
+
+GET http://localhost:8080/recipe/test
+
+###
+
+DELETE http://localhost:8080/recipe/Tacos
+
+###
+
+POST http://localhost:8080/recipe/add
+Content-Type: application/json
+
+{
+    "name":"Tacos",
+    "ingredients": [
+        {"name":"Ground Beef"},
+        {"name":"Taco Seasoning"}
+    ]
+}
+
+###
+
+GET http://localhost:8080/plan/
+
+###
+
+GET http://localhost:8080/plan/6248ddb8971a09742887669f
+
+###
+
+POST http://localhost:8080/plan/add/
+Content-Type: application/json
+
+{
+    "startDate":"March 27, 2022",
+    "endDate":"April 1, 2022",
+    "recipes": [
+        {
+            "name": "Butter Chicken",
+            "ingredients":[
+                "Chicken"
+            ]
+        }
+    ],
+    "ingredients": [
+        {"name": "Monsters"},
+        {"name": "NEWNAME"}
+    ]
+}
+
+###
+
+DELETE http://localhost:8080/plan/delete/6248ddb8971a09742887669f
+
+###

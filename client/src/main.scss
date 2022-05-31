@@ -1,21 +1,4 @@
-$primary: #b2b2b2;
-
-.push {
-	height: 50px;
+textarea {
+	resize: none;
 }
-.footer {
-	position: fixed;
-	left: 0;
-	bottom: 0;
-	width: 100%;
-	background-color: $primary;
-	color: white;
-	text-align: center;
-}
-html,
-body {
-	min-height: 400px;
-	margin-bottom: 100px;
-}
-
 @import "./../node_modules/bootstrap/scss/bootstrap.scss";
