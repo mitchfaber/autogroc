@@ -56,7 +56,7 @@ export default function Homepage() {
 							<div className="modal-body">Are you sure you would like to delete the incomplete plan?</div>
 							<div className="modal-footer">
 								<button type="button" className="btn btn-secondary" data-dismiss="modal">
-									Close
+									Cancel
 								</button>
 								<button
 									type="button"
